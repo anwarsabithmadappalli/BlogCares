@@ -216,7 +216,7 @@ class UserController
             return response()->json([
                 'success'   =>  true,
                 'token'  =>  $token,
-                'message'   =>  'User created successfully.'
+                'message'   =>  'User updated successfully.'
             ], 201);
 
                 
@@ -228,7 +228,7 @@ class UserController
             return response()->json([
                 'success' => false,
                 'error'   => $e->getMessage(),
-                'message' => 'Registration failed.',
+                'message' => 'Failed to update user.',
             ], 500);
             
         }
@@ -283,7 +283,7 @@ class UserController
             return response()->json([
                 'success' => false,
                 'error'   => $e->getMessage(),
-                'message' => 'Failed to create post.',
+                'message' => 'Failed to fetch user.',
             ], 500);
 
         }
@@ -335,7 +335,7 @@ class UserController
             return response()->json([
                 'success' => false,
                 'error'   => $e->getMessage(),
-                'message' => 'Failed to create post.',
+                'message' => 'Failed to delete user.',
             ], 500);
 
         }
@@ -350,5 +350,5 @@ class UserController
             'message' => 'Logged out successfully'
         ]);
     }
-    
+
 }
