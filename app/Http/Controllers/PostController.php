@@ -77,7 +77,7 @@ class PostController
             return response()->json([
                 'success' => false,
                 'error'   => $e->getMessage(),
-                'message' => 'Failed to create post.',
+                'message' => 'Failed to fetch posts.',
             ], 500);
         }
     }
@@ -254,7 +254,7 @@ class PostController
             return response()->json([
                 'success' => false,
                 'error'   => $e->getMessage(),
-                'message' => 'Failed to create post.',
+                'message' => 'Failed to update post.',
             ], 500);
         }
     }
@@ -303,7 +303,7 @@ class PostController
             return response()->json([
                 'success' => false,
                 'error'   => $e->getMessage(),
-                'message' => 'Failed to create post.',
+                'message' => 'Failed to fetch post.',
             ], 500);
         }
     }
@@ -361,7 +361,7 @@ class PostController
             return response()->json([
                 'success' => false,
                 'error'   => $e->getMessage(),
-                'message' => 'Failed to create post.',
+                'message' => 'Failed to delete post.',
             ], 500);
         }
     }
