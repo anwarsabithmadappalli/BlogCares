@@ -176,11 +176,13 @@ class UserController
 
         $validator = Validator::make($request->all(),
         [
+            'user_id'   =>  'required|exists:users,id',
             'name'  =>  'required|string|min:3|max:100',
-            'email' =>  'required|email|unique:users',
+            'email' => 'required|email|unique:users,email,' . auth()->id(),
             'password' => 'required|min:6|max:16|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/|regex:/[@$!%*?&#]/',
         ],
         [
+            'user_id.exists'  =>  "User Id doesn't exists.",
             'name.required' =>  'Name is required.',
             'email.unique'  =>  'Email already exists.',
             'password.regex'    =>  'Password must include at least one lowercase letter, one uppercase letter, one number, and one special character.',
@@ -198,26 +200,16 @@ class UserController
 
         try {
 
-            $user = User::find(auth()->id());
+            $user = User::find($fields['user_id']);
             $user->name = $fields['name'];
             $user->email = $fields['email'];
-            $user->password = bcrypt($fields['email']);
+            $user->password = bcrypt($fields['password']);
             $user->save();
-
-            if (!$user->editable) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'You are not authorized to update this user.'
-                ], 403);
-            }
-
-            $token = $user->createToken('api_token')->plainTextToken;
 
             return response()->json([
                 'success'   =>  true,
-                'token'  =>  $token,
                 'message'   =>  'User updated successfully.'
-            ], 201);
+            ], 200);
 
                 
         } catch (\Exception | \PDOException | \Throwable $e) {
@@ -293,17 +285,17 @@ class UserController
     {
         $logger = Log::channel('user');
         $fields = $request->all();
-        
+        $validator = Validator::make($request->all(), 
+        [
+            'user_id'  =>  'required|exists:users,id',
+        ],
+        [
+            'user_id.exists'  =>  "User Id doesn't exists.",
+        ]);
+
         try{
             
-            $user = User::find(auth()->id);
-
-            if (!$user->editable) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'You are not authorized to delete this user.'
-                ], 403);
-            }
+            $user = User::find($fields['user_id']);
 
             if($user){
 
