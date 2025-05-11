@@ -70,8 +70,4 @@ class User extends Authenticatable
         });
     }
 
-    public function getEditableAttribute()
-    {
-        return $this->user_id == auth()->id() || (auth()->check() && auth()->user()->is_admin === '1');
-    }
 }
